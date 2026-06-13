@@ -9,39 +9,8 @@ dotenv.config()
 const app = express()
 
 // Middleware
-const getAllowedOrigins = () => {
-  const origins = [process.env.CLIENT_URL, 'http://localhost:5173'].filter(Boolean)
-  return origins.map((origin) => {
-    if (/^[a-zA-Z][a-zA-Z\d+-.]*:/.test(origin)) return origin
-    return `https://${origin}`
-  })
-}
-const allowedOrigins = getAllowedOrigins()
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true)
-    } else {
-      callback(new Error(`CORS origin denied: ${origin}`))
-    }
-  },
-  credentials: true,
-}
-app.use(cors(corsOptions))
-app.use((req, res, next) => {
-  const origin = req.headers.origin
-  if (origin && allowedOrigins.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin)
-    res.header('Access-Control-Allow-Credentials', 'true')
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
-  }
-  if (req.method === 'OPTIONS') {
-    return res.sendStatus(204)
-  }
-  next()
-})
-app.options('*', cors(corsOptions))
+app.use(cors({ origin: true, credentials: true }))
+app.options('*', cors())
 app.use(express.json())
 
 // API routes

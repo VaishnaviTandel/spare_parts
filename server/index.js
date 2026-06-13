@@ -9,9 +9,11 @@ dotenv.config()
 const app = express()
 
 // Middleware
-if (process.env.NODE_ENV === 'development') {
-  app.use(cors({ origin: 'http://localhost:5173', credentials: true }))
+const corsOptions = {
+  origin: process.env.CLIENT_URL || true,
+  credentials: true,
 }
+app.use(cors(corsOptions))
 app.use(express.json())
 
 // API routes

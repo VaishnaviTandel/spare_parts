@@ -14,6 +14,8 @@ export const setAuthToken = (token) => {
 // ── Auth ──────────────────────────────────────────────
 export const loginUser    = (identifier, password) => api.post('/auth/login', { identifier, password })
 export const registerUser = (username, email, password) => api.post('/auth/register', { username, email, password })
+export const forgotPassword = (email) => api.post('/auth/forgot-password', { email })
+export const resetPassword  = (email, token, password) => api.post('/auth/reset-password', { email, token, password })
 export const getMe        = () => api.get('/auth/me')
 
 // ── Parts ──────────────────────────────────────────────

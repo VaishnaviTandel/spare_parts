@@ -9,8 +9,22 @@ dotenv.config()
 const app = express()
 
 // Middleware
+const getAllowedOrigins = () => {
+  const origins = [process.env.CLIENT_URL, 'http://localhost:5173'].filter(Boolean)
+  return origins.map((origin) => {
+    if (/^[a-zA-Z][a-zA-Z\d+-.]*:/.test(origin)) return origin
+    return `https://${origin}`
+  })
+}
+const allowedOrigins = getAllowedOrigins()
 const corsOptions = {
-  origin: process.env.CLIENT_URL || true,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error(`CORS origin denied: ${origin}`))
+    }
+  },
   credentials: true,
 }
 app.use(cors(corsOptions))

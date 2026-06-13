@@ -1,6 +1,5 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const cors = require('cors')
 const dotenv = require('dotenv')
 const path = require('path')
 
@@ -9,8 +8,19 @@ dotenv.config()
 const app = express()
 
 // Middleware
-app.use(cors({ origin: true, credentials: true }))
-app.options('*', cors())
+app.use((req, res, next) => {
+  const origin = req.headers.origin
+  if (origin) {
+    res.header('Access-Control-Allow-Origin', origin)
+    res.header('Access-Control-Allow-Credentials', 'true')
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
+  }
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204)
+  }
+  next()
+})
 app.use(express.json())
 
 // API routes

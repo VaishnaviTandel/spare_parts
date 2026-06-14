@@ -1,7 +1,7 @@
 import { ShoppingCart, Pencil, Trash2 } from 'lucide-react'
 
 export default function PartCard({ part, onBuy, onEdit, onDelete, loading }) {
-  const isLow = part.qty > 0 && part.qty <= 2
+  const isLow = part.qty > 0 && part.qty <= 1
   const isOut = part.qty === 0
 
   return (

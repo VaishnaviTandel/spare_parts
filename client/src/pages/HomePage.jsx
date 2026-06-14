@@ -17,10 +17,21 @@ function HPCard({ hp, parts, onClick }) {
   const low   = parts.filter((p) => p.qty <= 1).length
   const val   = parts.reduce((s, p) => s + p.price * p.qty, 0)
 
-  const isBlue    = hp === '2.5'
-  const badgeCls  = isBlue ? 'bg-blue-500/15 text-blue-300'   : 'bg-amber-500/15 text-amber-300'
-  const borderCls = isBlue ? 'border-t-blue-500/50'            : 'border-t-amber-500/50'
-  const arrowCls  = isBlue ? 'text-blue-400'                   : 'text-amber-400'
+  // Color theme per HP — add a new branch here if you add another HP later
+  let badgeCls, borderCls, arrowCls
+  if (hp === '2.5') {
+    badgeCls  = 'bg-blue-500/15 text-blue-300'
+    borderCls = 'border-t-blue-500/50'
+    arrowCls  = 'text-blue-400'
+  } else if (hp === '3.5') {
+    badgeCls  = 'bg-purple-500/15 text-purple-300'
+    borderCls = 'border-t-purple-500/50'
+    arrowCls  = 'text-purple-400'
+  } else {
+    badgeCls  = 'bg-amber-500/15 text-amber-300'
+    borderCls = 'border-t-amber-500/50'
+    arrowCls  = 'text-amber-400'
+  }
 
   return (
     <button
@@ -67,10 +78,10 @@ export default function HomePage({ onSelect }) {
   return (
     <div className="animate-slide-up">
       <p className="text-sm text-slate-500 mb-5">Select a machine to manage its spare parts</p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         <HPCard hp="2.5" parts={parts.filter((p) => p.hp === '2.5')} onClick={onSelect} />
-        <HPCard hp="6"   parts={parts.filter((p) => p.hp === '6')}   onClick={onSelect} />
         <HPCard hp="3.5" parts={parts.filter((p) => p.hp === '3.5')} onClick={onSelect} />
+        <HPCard hp="6"   parts={parts.filter((p) => p.hp === '6')}   onClick={onSelect} />
       </div>
     </div>
   )

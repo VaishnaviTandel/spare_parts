@@ -14,7 +14,7 @@ function StatBox({ label, value, danger }) {
 
 function HPCard({ hp, parts, onClick }) {
   const cats  = [...new Set(parts.map((p) => p.category))]
-  const low   = parts.filter((p) => p.qty <= 2).length
+  const low   = parts.filter((p) => p.qty <= 1).length
   const val   = parts.reduce((s, p) => s + p.price * p.qty, 0)
 
   const isBlue    = hp === '2.5'
@@ -70,7 +70,7 @@ export default function HomePage({ onSelect }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <HPCard hp="2.5" parts={parts.filter((p) => p.hp === '2.5')} onClick={onSelect} />
         <HPCard hp="6"   parts={parts.filter((p) => p.hp === '6')}   onClick={onSelect} />
-        <HPCard hp="3.5 tohatsu" parts={parts.filter((p) => p.hp === '3.5')} onClick={onSelect} />
+        <HPCard hp="3.5" parts={parts.filter((p) => p.hp === '3.5')} onClick={onSelect} />
       </div>
     </div>
   )
